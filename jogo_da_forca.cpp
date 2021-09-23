@@ -68,7 +68,11 @@ int main()
 
 		printf("Olá, %s! É a sua vez.\n\nInforme algo para ser adivinhado: ", player1);
 		fflush(stdin);
-		scanf("%21[^\n]", wordToGuess);
+		fgets(wordToGuess, LIMIT_WORD, stdin);
+		
+		wordLength = strlen(wordToGuess); // pega o tamanho da palavra informada
+
+		wordToGuess[wordLength - 1] = '\0'; // tira o ENTER (\n) que veio com o fgets
 
 		do
 		{
@@ -86,8 +90,6 @@ int main()
 		} while (validateWord != 1 && validateWord != 2); // evita a inserção de números não correspondentes as opções
 		
 	} while (validateWord == 2); // repete enquanto o Jogador 1 não confirmar a palavra
-
-	wordLength = strlen(wordToGuess); // pega o tamanho da palavra informada
 
 	// INÍCIO DO JOGO - JOGADOR 2
 	while (lifes > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
