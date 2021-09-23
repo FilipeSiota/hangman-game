@@ -13,7 +13,7 @@
 #include <string.h>
 
 #define LIMIT_WORD 21 // número máximo de caracteres para a palavra a ser adivinhada
-#define QUANT_LIFES 6 // quantidade de vidas
+#define QUANT_LIFES 5 // quantidade de vidas
 
 int main()
 {
@@ -72,7 +72,7 @@ int main()
 
 		do
 		{
-			printf("\nConfirmar palavra '%s'?\n", wordToGuess);
+			printf("\nConfirmar '%s'?\n", wordToGuess);
 
 			printf("\nInforme (1) para SIM ou (2) para NÃO: ");
 			fflush(stdin);
@@ -93,6 +93,8 @@ int main()
 	while (lifes > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
 	{
 		system("cls");
+		
+		printf("OBS.: Quando houver '/' significa que há uma espaço.\n\n");
 		
 		printf("########## Agora é sua vez %s ##########\n\n", player2);
 		
