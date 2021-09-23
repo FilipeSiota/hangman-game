@@ -1,5 +1,11 @@
-## Hangman Game
+# Hangman Game 🎮
 
-This is a school assingment that I'm working on.
+* This is a school assingment that I'm currently working on.
 
-The program is basically written in `C++` and it hasn't the most beautiful interface, but is quite easy to play the game.
+* The program is written in `C++`.
+
+* It has a very instictive interface, even though not the most beautiful one, and it's quite easy to play.
+
+## Show your ideas 💡
+
+Feel free to make pull requests and give suggestions to improve the code.
