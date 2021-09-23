@@ -13,39 +13,40 @@
 #include <string.h>
 
 #define LIMIT_WORD 21 // número máximo de caracteres para a palavra a ser adivinhada
-#define QUANT_LIFES 5 // quantidade de vidas
+#define QUANT_LIFES 6 // quantidade de vidas
 
 int main()
 {
 	setlocale(LC_ALL, "Portuguese");
 
-	// VARIÁVEIS
+	// VARIÁVEIS PRINCIPAIS
+	char player1[50], player2[50]; // armazena os nomes do jogadores
 	int lifes = QUANT_LIFES; // quantidade de vidas
 	char wordToGuess[LIMIT_WORD]; // armazena a palavra que será adivinhada
+	int wordLength; // guarda o tamanho da wordToGuess
 
-	char player1[50], player2[50]; // armazena os nomes do jogadores
 	char letter; // armazena a letra informada
-	
 	char allLetters[27]; // armazena em um vetor todas as letras já informadas, podendo receber até todas as letras do alfabeto
 	allLetters[0] = '*'; // só para verificar se alguma letra já foi informada;
-	
-	char contLettersGuessed; // conta quantas letras já foram adivinhadas
-	int wordLength; // guarda o tamanho da wordToGuess
 	
 	// VARIÁVEIS AUXILIARES (CONTADORES E OUTRAS PARA VERIFICAÇÃO)
 	int validateWord; // valida a wordToGuess
 	int validateLetter; // valida a letter
 	int win = 0; // valor diferente de 0, significa que o Jogador 2 ganhou
-	int heart; // contador para as vidas
-	int contAllLetters = 0; // para ajudar no index do vetor allLetters
-	int let; // contador de letras
-	int eachLet; // contador para cada letra da wordToGuess
+	int contAllLetters = 0; // conta quantas letras já foram informadas para ajudar no index do vetor allLetters[]
+	char contLettersGuessed; // conta quantas letras já foram adivinhadas
+
+	// FOR (variables)
+	int heart; // percorre as vidas
+	int let; // percorre as letras do vetor allLetters[]
+	int eachLet; // percorre as letras da wordToGuess
 	
 	// PEGANDO OS NOMES DOS JOGADORES
 	printf("########## Jogo da Forca ##########\n\n");
 
 	printf("OBSERVAÇÕES:\n\n");
-	printf(">> O 'Jogador 1' irá informar uma palavra a ser adivinhada,\nenquanto o 'Jogador 2' será a pessoa tentando adivinhá-la;\n");
+	printf(">> O 'Jogador 1' irá informar algo a ser adivinhado,\nenquanto o 'Jogador 2' será a pessoa tentando adivinhar;\n");
+	printf(">> O 'Jogador 2' tem %d vidas para adivinhar;\n", QUANT_LIFES);
 	printf(">> Jogar com a caixa alta do teclado ativada.\n\n");
 
 	printf("Nome do Jogador 1: ");
@@ -61,17 +62,19 @@ int main()
 	{
 		system("cls");
 
-		printf("Olá, %s! É a sua vez.\n\nInforme uma palavra: ", player1);
+		printf("OBSERVAÇÕES:\n\n");
+		printf(">> Você pode digitar até 20 caracteres no campo abaixo;\n");
+		printf(">> Espaços e hífens também são permitidos.\n\n");
+
+		printf("Olá, %s! É a sua vez.\n\nInforme algo para ser adivinhado: ", player1);
 		fflush(stdin);
 		scanf("%21[^\n]", wordToGuess);
-		
-		wordLength = strlen(wordToGuess); // pega o tamanho da palavra informada
 
 		do
 		{
 			printf("\nConfirmar palavra '%s'?\n", wordToGuess);
 
-			printf("Informe (1) para SIM ou (2) para NÃO: ");
+			printf("\nInforme (1) para SIM ou (2) para NÃO: ");
 			fflush(stdin);
 			scanf("%d", &validateWord);
 
@@ -84,6 +87,8 @@ int main()
 		
 	} while (validateWord == 2); // repete enquanto o Jogador 1 não confirmar a palavra
 
+	wordLength = strlen(wordToGuess); // pega o tamanho da palavra informada
+
 	// INÍCIO DO JOGO - JOGADOR 2
 	while (lifes > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
 	{
@@ -92,12 +97,16 @@ int main()
 		printf("########## Agora é sua vez %s ##########\n\n", player2);
 		
 		// MOSTRANDO AS VIDAS DO JOGADOR 2
+		printf("Vidas restantes ( ");
+
 		for (heart = 0; heart < lifes; heart++)
 		{
 			printf("S2 ");
 		}
+
+		printf(")");
 		
-		// MOSTRA AS LETRAS JÁ INFORMADAS, SE HOUVER
+		// MOSTRA AS LETRAS JÁ INFORMADAS, SE HOUVER ALGUMA
 		if (allLetters[0] != '*')
 		{
 			printf("\n\nLetras já informadas >> ");
@@ -118,15 +127,28 @@ int main()
 		// MOSTRA A PALAVRA QUE ESTÁ SENDO ADIVINHADA
 		printf("\n\nPalavra: ");
 		
-		contLettersGuessed = 0;
+		contLettersGuessed = 0; // inicializa a quantidade de letras que já foram adivinhadas com 0
 		
 		for (eachLet = 0; eachLet < wordLength; eachLet++) // percorre a wordToGuess
 		{
 			if (!contAllLetters) // se nenhuma letra foi informada ainda
 			{
-				printf("_ ");
-				
-				continue;
+				if (wordToGuess[eachLet] == ' ') // se houver mais de uma palavra separadas por espaço
+				{
+					printf("/ ");
+
+					contLettersGuessed++; // vai contando quantas letras já foram adivinhadas
+				}
+				else if (wordToGuess[eachLet] == '-') // se for uma palavra composta
+				{
+					printf("- ");
+
+					contLettersGuessed++; // vai contando quantas letras já foram adivinhadas
+				}
+				else
+				{
+					printf("_ ");
+				}
 			}
 			else
 			{
@@ -140,6 +162,22 @@ int main()
 						
 						break;
 					}
+					else if (wordToGuess[eachLet] == ' ') // se houver mais de uma palavra separadas por espaço
+					{
+						printf("/ ");
+
+						contLettersGuessed++; // vai contando quantas letras já foram adivinhadas
+						
+						break;
+					}
+					else if (wordToGuess[eachLet] == '-') // se for uma palavra composta
+					{
+						printf("- ");
+
+						contLettersGuessed++; // vai contando quantas letras já foram adivinhadas
+						
+						break;
+					}
 					else if (let == contAllLetters - 1) // senão, se for a última repetição e não tiver entrado nos IF anterior
 					{
 						printf("_ ");
@@ -148,7 +186,7 @@ int main()
 			}
 		}
 		
-		if (contLettersGuessed == wordLength) // se tu já adivinhou todas as letras da wordToGuess
+		if (contLettersGuessed == wordLength) // se o Jogador 2 já adivinhou todas as letras da wordToGuess
 		{
 			win = 100; // Jogador 2 ganhou
 		}
@@ -168,15 +206,20 @@ int main()
 				{
 					if (letter == allLetters[let])
 					{
-						printf("\nLetra inválida! Você já informou esta letra. Tente novamente.");
+						printf("\nCaractere inválido! Você já informou este caractere. Tente novamente.");
 						
 						validateLetter = 0;
 						
 						break;
 					}
 				}
+
+				if (letter == '\n' || letter == ' ' || letter == '-')
+				{
+					printf("\nCaractere inválido! ESPAÇO, ENTER e HÍFEN não são caracteres válidos. Tente novamente.");
+				}
 				
-			} while (!validateLetter); // repete enquanto a validação for 0, ou seja, a letra já tiver sido informada antes
+			} while (!validateLetter || letter == '\n' || letter == ' ' || letter == '-'); // repete enquanto a validação for 0, ou seja, a letra já tiver sido informada antes, ou algum caractere inválido tenha sido informado
 			
 			// ADICIONAR AO VETOR NO QUAL CONSTA TODAS AS LETRAS INFORMADAS
 			allLetters[contAllLetters] = letter;
@@ -220,7 +263,7 @@ int main()
 	}
 	else if (win == 100) // se o Jogador 2 ganhou
 	{
-		printf("\n\nParabéns %s, você adivinhou a palavra e venceu o jogo!", player2);
+		printf("\n\nParabéns %s, você adivinhou e venceu o jogo!", player2);
 	}
 	
 	printf("\n\nFim de Jogo! Pressione ENTER para encerrar o programa.");
