@@ -13,7 +13,7 @@
 #include <string.h>
 
 #define LIMIT_WORD 21 // número máximo de caracteres para a palavra a ser adivinhada
-#define QUANT_LIFES 5 // quantidade de vidas
+#define QUANT_LIFES 6 // quantidade de vidas
 
 int main()
 {
@@ -96,7 +96,7 @@ int main()
 	{
 		system("cls");
 		
-		printf("OBS.: Quando houver '/' significa que há uma espaço.\n\n");
+		printf("OBS.: Quando houver '/' significa que há um espaço.\n\n");
 		
 		printf("########## Agora é sua vez %s ##########\n\n", player2);
 		
