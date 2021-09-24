@@ -35,6 +35,7 @@ int main()
 	int win = 0; // valor diferente de 0, significa que o Jogador 2 ganhou
 	int contAllLetters = 0; // conta quantas letras já foram informadas para ajudar no index do vetor allLetters[]
 	char contLettersGuessed; // conta quantas letras já foram adivinhadas
+	char contSpecialChar = 0; // conta quantos espaços ou hífens têm para saber apenas a quantidade de letras
 
 	// FOR (variables)
 	int heart; // percorre as vidas
@@ -64,7 +65,8 @@ int main()
 
 		printf("OBSERVAÇÕES:\n\n");
 		printf(">> Você pode digitar até 20 caracteres no campo abaixo;\n");
-		printf(">> Espaços e hífens também são permitidos.\n\n");
+		printf(">> Espaços e hífens também são permitidos;\n");
+		printf(">> Evite colocar acentos.\n\n");
 
 		printf("Olá, %s! É a sua vez.\n\nInforme algo para ser adivinhado: ", player1);
 		fflush(stdin);
@@ -90,6 +92,24 @@ int main()
 		} while (validateWord != 1 && validateWord != 2); // evita a inserção de números não correspondentes as opções
 		
 	} while (validateWord == 2); // repete enquanto o Jogador 1 não confirmar a palavra
+	
+	wordLength = strlen(wordToGuess); // pega o tamanho da palavra informada, agora sem a caractere '\n'
+	
+	for (eachLet = 0; eachLet < wordLength; eachLet++) // percorre a wordToGuess
+	{
+		if (wordToGuess[eachLet] == ' ') // se tiver um espaço na wordToGuess
+		{
+			printf("/ ");
+
+			contSpecialChar++; // conta quantos espaços têm para saber apenas a quantidade de letras
+		}
+		else if (wordToGuess[eachLet] == '-') // se tiver um hífen na wordToGuess
+		{
+			printf("- ");
+
+			contSpecialChar++; // conta quantos hífens têm para saber apenas a quantidade de letras
+		}
+	}
 
 	// INÍCIO DO JOGO - JOGADOR 2
 	while (lifes > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
@@ -189,6 +209,8 @@ int main()
 				}
 			}
 		}
+		
+		printf("(%d letras)", wordLength - contSpecialChar); // mostra a quantidade de letras na palavra
 		
 		if (contLettersGuessed == wordLength) // se o Jogador 2 já adivinhou todas as letras da wordToGuess
 		{
