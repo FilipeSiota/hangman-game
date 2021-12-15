@@ -1,0 +1,5 @@
+# Avoid directories
+.vscode/
+
+# Avoid files
+*.exe

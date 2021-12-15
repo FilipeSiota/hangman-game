@@ -14,7 +14,7 @@
 #include <time.h>
 
 #define LIMIT_WORD 21 // número máximo de caracteres para a palavra a ser adivinhada
-#define QUANT_LIFES 6 // quantidade de vidas
+#define QUANT_LIVES 6 // quantidade de vidas
 #define MAX_PLAYERS 50 // número máximo de jogadores
 
 void getPlayer(int *controler, int numPlayers);
@@ -23,12 +23,12 @@ void sortSubject(char *subject);
 
 int main()
 {
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "English");
 
 	// VARIÁVEIS PRINCIPAIS
 	char players[MAX_PLAYERS][50]; // armazena os nomes do jogadores
 	int score[MAX_PLAYERS] = { }; // placar
-	int lifes = QUANT_LIFES; // quantidade de vidas
+	int lives = QUANT_LIVES; // quantidade de vidas
 	char wordToGuess[LIMIT_WORD]; // armazena a palavra que será adivinhada
 	int wordLength; // guarda o tamanho da wordToGuess
 	char subject[50];
@@ -57,39 +57,39 @@ int main()
 	int player; // percorre vetores relativos a players
 	
 	// PEGANDO OS NOMES DOS JOGADORES
-	printf("########## Jogo da Forca ##########\n\n");
+	printf("########## HANGMAN GAME ##########\n\n");
 	
 	do
 	{
-		printf("Informe o número de jogadores (máx. 50): ");
+		printf("Insert the number of players (max. 50): ");
 		scanf("%d", &numPlayers);
 		
 		if (numPlayers < 1 || numPlayers > MAX_PLAYERS)
 		{
-			printf("\nValor inválido! Tente novamente.\n");
+			printf("\nInvalid value! Try again.\n");
 		}
 	}
 	while (numPlayers < 1 || numPlayers > MAX_PLAYERS);
 	
 	system("cls");
 	
-	printf("########## Jogo da Forca ##########\n\n");
+	printf("########## HANGMAN GAME ##########\n\n");
 
-	printf("OBSERVAÇÕES:\n\n");
-	printf(">> O 'Jogador 1' irá informar algo a ser adivinhado,\nenquanto o 'Jogador 2' será a pessoa tentando adivinhar;\n");
-	printf(">> O 'Jogador 2' tem %d vidas para adivinhar;\n", QUANT_LIFES);
-	printf(">> Jogar com a caixa alta do teclado ativada.\n\n");
+	printf("RULES:\n\n");
+	printf(">> One of the players will insert something to be guessed (related to a sorted subject)\nwhile the other players will try to guess it;\n");
+	printf(">> The players, who will be guessing, have %d lives;\n", QUANT_LIVES);
+	printf(">> It's highly recommended to play with CAPS LOCK (ON).\n\n");
 	
 	for (player = 0; player < numPlayers; player++)
 	{
-		printf("Nome do Jogador %d: ", player + 1);
+		printf("Name of Player %d: ", player + 1);
 		fflush(stdin);
 		scanf("%50[^\n]", players[player]);
 	}
 	
 	do
 	{
-		lifes = QUANT_LIFES;
+		lives = QUANT_LIVES;
 		win = 0;
 		contAllLetters = 0;
 		contLettersGuessed = 0;
@@ -110,12 +110,12 @@ int main()
 		{
 			system("cls");
 	
-			printf("OBSERVAÇÕES:\n\n");
-			printf(">> Você pode digitar até 20 caracteres no campo abaixo;\n");
-			printf(">> Espaços e hífens também são permitidos;\n");
-			printf(">> Evite colocar acentos.\n\n");
+			printf("RULES:\n\n");
+			printf(">> You can digit the maximum of %d characters in the scope below;\n", LIMIT_WORD - 1);
+			printf(">> Hyphens and blank spaces are allowed;\n");
+			printf(">> Avoid using stresses.\n\n");
 	
-			printf("Olá, %s! É a sua vez.\n\nInforme algo para ser adivinhado relacionado ao tema '%s': ", players[control_player], subject);
+			printf("Hey, %s! It's your turn.\n\nInsert something to be guessed related to the subject '%s': ", players[control_player], subject);
 			fflush(stdin);
 			fgets(wordToGuess, LIMIT_WORD, stdin);
 			
@@ -125,15 +125,15 @@ int main()
 	
 			do
 			{
-				printf("\nConfirmar '%s'?\n", wordToGuess);
+				printf("\nConfirm '%s'?\n", wordToGuess);
 	
-				printf("\nInforme (1) para SIM ou (2) para NÃO: ");
+				printf("\nInsert (1) for YES or (2) for NO: ");
 				fflush(stdin);
 				scanf("%d", &validateWord);
 	
 				if (validateWord != 1 && validateWord != 2)
 				{
-					printf("\nOpção inválida! Tente novamente.\n");
+					printf("\nInvalid option! Try again.\n");
 				}
 	
 			} while (validateWord != 1 && validateWord != 2); // evita a inserção de números não correspondentes as opções
@@ -159,18 +159,18 @@ int main()
 		}
 	
 		// INÍCIO DO JOGO - JOGADOR 2
-		while (lifes > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
+		while (lives > 0 && !win) // enquanto o Jogador 2 tiver vidas e não tiver ganhado o jogo ainda
 		{
 			system("cls");
 			
-			printf("OBS.: Quando houver '/' significa que há um espaço.\n\n");
+			printf("OBSERVATION: When you find a '/' (slash), it means there's a blank space.\n\n");
 			
-			printf("########## Agora é a vez dos demais jogadores ##########\n\n");
+			printf("########## Now it's the other players' turn ##########\n\n");
 			
 			// MOSTRANDO AS VIDAS DO JOGADOR 2
-			printf("Vidas restantes ( ");
+			printf("Lifes left ( ");
 	
-			for (heart = 0; heart < lifes; heart++)
+			for (heart = 0; heart < lives; heart++)
 			{
 				printf("S2 ");
 			}
@@ -180,7 +180,7 @@ int main()
 			// MOSTRA AS LETRAS JÁ INFORMADAS, SE HOUVER ALGUMA
 			if (allLetters[0] != '*')
 			{
-				printf("\n\nLetras já informadas >> ");
+				printf("\n\nInserted letters >> ");
 				
 				for (let = 0; let < contAllLetters; let++)
 				{
@@ -196,10 +196,10 @@ int main()
 			}
 			
 			// MOSTRA O TEMA
-			printf("Tema: %s", subject);
+			printf("\n\nSubject: %s", subject);
 			
 			// MOSTRA A PALAVRA QUE ESTÁ SENDO ADIVINHADA
-			printf("\n\nPalavra: ");
+			printf("\n\nWord: ");
 			
 			contLettersGuessed = 0; // inicializa a quantidade de letras que já foram adivinhadas com 0
 			
@@ -260,7 +260,7 @@ int main()
 				}
 			}
 			
-			printf("(%d letras)", wordLength - contSpecialChar); // mostra a quantidade de letras na palavra
+			printf("(%d letters)", wordLength - contSpecialChar); // mostra a quantidade de letras na palavra
 			
 			if (contLettersGuessed == wordLength) // se o Jogador 2 já adivinhou todas as letras da wordToGuess
 			{
@@ -273,7 +273,7 @@ int main()
 				{
 					validateLetter = 1;
 					
-					printf("\n\nInforme uma letra: ");
+					printf("\n\nInsert a letter: ");
 					fflush(stdin);
 					scanf("%c", &letter);
 					
@@ -282,7 +282,7 @@ int main()
 					{
 						if (letter == allLetters[let])
 						{
-							printf("\nCaractere inválido! Você já informou este caractere. Tente novamente.");
+							printf("\nInvalid character! You've already inserted this character. Try again.");
 							
 							validateLetter = 0;
 							
@@ -292,7 +292,7 @@ int main()
 	
 					if (letter == '\n' || letter == ' ' || letter == '-')
 					{
-						printf("\nCaractere inválido! ESPAÇO, ENTER e HÍFEN não são caracteres válidos. Tente novamente.");
+						printf("\nInvalid character! SPACE, ENTER and HYPHEN aren't valid characters. Try again.");
 					}
 					
 				} while (!validateLetter || letter == '\n' || letter == ' ' || letter == '-'); // repete enquanto a validação for 0, ou seja, a letra já tiver sido informada antes, ou algum caractere inválido tenha sido informado
@@ -307,19 +307,19 @@ int main()
 				{
 					if (letter == wordToGuess[eachLet])
 					{
-						printf("\nParabéns! A letra '%c' faz parte da palavra.", letter);
+						printf("\nCongrats! The letter '%c' belong to the word.", letter);
 						
 						break;
 					}
 					else if (eachLet == wordLength - 1) // senão, se for a última repetição e não tiver entrado no IF anterior
 					{
-						printf("\nUps! A letra '%c' não faz parte da palavra.", letter);
+						printf("\nUps! The letter '%c' doesn't belong to the word.", letter);
 						
-						lifes--; // como errou, perde uma vida
+						lives--; // como errou, perde uma vida
 					}
 				}
 				
-				printf("\n\nPressione ENTER para continuar.");
+				printf("\n\nPress ENTER to continue.");
 				fflush(stdin);
 				getchar();
 				
@@ -327,23 +327,23 @@ int main()
 			
 		}
 		
-		if (!lifes) // se as vidas do Jogador 2 acabaram
+		if (!lives) // se as vidas do Jogador 2 acabaram
 		{
 			system("cls");
 			
 			printf("########## GAME OVER ##########\n\n");
 			
-			printf("A palavra era: %s\n", wordToGuess);
+			printf("The word was: %s\n", wordToGuess);
 			
-			printf("\nAs vidas acabaram.\nParabéns %s, você venceu a rodada!", players[control_player]);
+			printf("\nThere are no more lives.\nCongrats %s, you won this round!\n", players[control_player]);
 			
 			score[control_player]++;
 		}
 		else if (win == 100) // se o Jogador 2 ganhou
 		{
-			printf("\n\nParabéns, você adivinhou e venceu a rodada!");
+			printf("\n\nCongrats, you guessed it and won this round!");
 			
-			printf("\n\nQuem adivinhou a palavra?\n");
+			printf("\n\nWho guessed it?\n");
 			
 			for (player = 0; player < numPlayers; player++)
 			{
@@ -352,13 +352,13 @@ int main()
 			
 			do
 			{
-				printf("\n\nEscolha uma opção: ");
+				printf("\n\nChoose an option: ");
 				fflush(stdin);
 				scanf("%d", &playerScored);
 				
 				if (playerScored < 1 || playerScored > numPlayers)
 				{
-					printf("\nOpção inválida! Tente novamente.");
+					printf("\nInvalid option! Try again.");
 				}
 			}
 			while (playerScored < 1 || playerScored > numPlayers);
@@ -372,15 +372,15 @@ int main()
 			}
 		}
 		
-		printf("\nPressione ENTER para continuar.");
+		printf("\nPress ENTER to continue.");
 		fflush(stdin);
 		getchar();
 		
 		system("cls");
 		
-		printf("########## Jogo da Forca ##########\n\n");
+		printf("########## HANGMAN GAME ##########\n\n");
 		
-		printf("PLACAR:\n\n");
+		printf("SCORE:\n\n");
 		
 		for (player = 0; player < numPlayers; player++)
 		{
@@ -389,13 +389,13 @@ int main()
 		
 		do
 		{
-			printf("\nContinuar a partida?\n\nInforme 1 para SIM ou 2 para NÃO: ");
+			printf("\nDo you want to continue playing the game?\n\nInsert (1) for YES or (2) for NO: ");
 			fflush(stdin);
 			scanf("%d", &exit);
 			
 			if (exit < 1 || exit > 2)
 			{
-				printf("\nOpção inválida! Tente novamente.");
+				printf("\nInvalid option! Try again.");
 			}
 		}
 		while (exit < 1 || exit > 2);
@@ -410,7 +410,7 @@ int main()
 		{
 			if (score[player] == winnerScore)
 			{
-				printf("\nParabéns %s, você venceu o jogo!\n", players[player]);
+				printf("\nCongrats %s, you won the game!\n", players[player]);
 				
 				break;
 			}
@@ -418,7 +418,7 @@ int main()
 	}
 	else
 	{
-		printf("\nParabéns:\n\n");
+		printf("\nCongrats:\n\n");
 		
 		for (player = 0; player < numPlayers; player++)
 		{
@@ -428,10 +428,10 @@ int main()
 			}
 		}
 		
-		printf("\nVocês empataram em %d ponto(s).\n", winnerScore);
+		printf("\nIt's a draw! Each one scored %d point(s).\n", winnerScore);
 	}
 	
-	printf("\nFim de Jogo! Pressione ENTER para encerrar o programa.");
+	printf("\nGAME OVER! Press ENTER to finish the program.");
 	fflush(stdin);
 	getchar();
 	
@@ -482,7 +482,7 @@ int getWinner(int *score, int numPlayers, int *contWinners)
 
 void sortSubject(char *subject)
 {
-	char subjects[5][50] = {"teste1", "teste2", "teste3", "teste4", "teste5"};
+	char subjects[5][50] = {"SPORTS", "FOODS", "MOVIES/SERIES", "COUNTRIES/STATES/CITIES", "ANIMALS"};
 	int num;
 	
 	srand(time(NULL));
